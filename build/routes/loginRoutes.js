@@ -2,6 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.router = void 0;
 var express_1 = require("express");
+function requireAuth(req, res, next) {
+    if (req.session && req.session.loggedIn) { // User is not logged in.
+        return next();
+        return;
+    }
+    res.status(403);
+    res.send('You are not permitted.');
+}
 var router = express_1.Router();
 exports.router = router;
 // router.get('/', (req: Request, res: Response) => {
@@ -35,4 +43,12 @@ router.post('/login', function (req, res) {
     else {
         res.send('Email or Password is not valid.');
     }
+});
+// User Logout
+router.get('/logout', function (req, res, Response) {
+    req.session = undefined;
+    res.redirect('/');
+});
+router.get('/protected', requireAuth, function (req, res) {
+    res.send('This is the protected route for the logged in user');
 });

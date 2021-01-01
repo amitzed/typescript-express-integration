@@ -9,6 +9,7 @@ const app = express();
 // Middleware below must remian in this order
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieSession({ keys: ['asdf'] }));
+
 app.use(router);
 
 // Route Handlers
